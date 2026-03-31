@@ -1021,3 +1021,19 @@ body {
   background: var(--accent);
   color: white;
 }
+
+/* ===== PRINT ===== */
+@media print {
+  body { background: white; color: black; }
+  header, footer, #input-section, #history-panel, .share-section, .latex-details,
+  .btn, button, select, input, .toolbar, #history-toggle-btn,
+  .method-note, #print-btn { display: none !important; }
+  #output { display: block !important; }
+  #output * { color: black !important; break-inside: avoid; }
+  .card { box-shadow: none; border: 1px solid #ccc; }
+  .matrix-bracket { border-color: black !important; }
+  .result-heading { color: black !important; }
+  .frac-num, .frac-den { color: black !important; }
+  .step-toggle { display: none; }
+  .step-content { display: block !important; max-height: none !important; }
+}

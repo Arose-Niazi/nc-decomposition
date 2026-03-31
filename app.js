@@ -604,12 +604,16 @@
     }
     list.innerHTML = html;
 
-    var items = list.querySelectorAll('.history-item');
-    for (var j = 0; j < items.length; j++) {
-      items[j].addEventListener('click', (function(idx) {
-        return function() { loadFromHistory(history[idx]); };
-      })(j));
-    }
+    list.addEventListener('click', function(e) {
+      var item = e.target.closest('.history-item');
+      if (!item) return;
+      var idx = parseInt(item.getAttribute('data-index'));
+      if (!isNaN(idx) && history[idx]) {
+        loadFromHistory(history[idx]);
+        // Close panel on mobile
+        document.getElementById('history-panel').classList.remove('open');
+      }
+    });
   }
 
   function loadFromHistory(h) {
@@ -932,6 +936,7 @@
     var shareURL = encodeToURL(n, matrixRaw, method, bRaw);
     html += '<div class="share-section">';
     html += '<button class="btn btn-small btn-share" id="share-btn">Share Link</button>';
+    html += '<button class="btn btn-small" id="print-btn">🖨 Print</button>';
     html += '<input type="text" class="share-url" id="share-url" value="' + escapeHTML(shareURL) + '" readonly>';
     html += '</div>';
 
@@ -946,6 +951,10 @@
       }).catch(function() {
         document.getElementById('share-url').select();
       });
+    });
+
+    document.getElementById('print-btn').addEventListener('click', function() {
+      window.print();
     });
 
     saveHistory({
